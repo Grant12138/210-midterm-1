@@ -163,5 +163,103 @@ class DoublyLinkedList // Declares the DoublyLinkedList class
                 cout << "List is empty." << endl;
                 return;
             }
+
+            Node* temp = head;
+            if (head->next)
+            {
+                // Make the new head be the next of the current head
+                head = head->next;
+                head->prev = nullptr;
+            }
+            else
+                head = tail = nullptr;
+            delete temp;
+        }
+
+        void pop_back()
+        {
+            if (!tail) // Nothing to pop if the list is empty
+            {
+                cout << "List is empty." << endl;
+                return;
+            }
+
+            Node* temp = tail;
+            if (tail->prev)
+            {
+                // Make the new tail be the prev of the current tail
+                tail = tail->prev;
+                tail->next = nullptr;
+            }
+            delete temp;
+        }
+
+        ~DoublyLinkedList()
+        {
+            // Delete every single node
+            while (head)
+            {
+                // Keep updating the head to be its next
+                Node*temp = head;
+                head = head->next;
+                delete temp;
+            }
+        }
+
+        // A class method to print out the data of all nodes in the list
+        void print()
+        {
+            Node* current = head;
+            if (!current) { // Nothing to print if the list is empty
+                cout << "List is empty." << endl;
+                return;
+            }
+            // Iterate through each node until the end is reached
+            while (current) {
+                cout << current->data << " ";
+                current = current->next;
+            }
+            cout << endl;
+        }
+        // A class method to print all nodes in the list from tail to head, same logic as above
+        void print_reverse()
+        {
+            Node* current = tail;
+            if (!current) {
+                cout << "List is empty." << endl;
+                return;
+            }
+            while (current) {
+                cout << current->data << " ";
+                current = current->prev;
+            }
+            cout << endl;
+        }
+
+        void every_other_element()
+        {
+            Node* current = head;
+            bool output = true; // Set a flag that will be true every other time
+            while (current)
+            {
+                if (output)
+                    cout << current->data << " ";
+                output = !output;
+                current = current->next;
+            }
+            cout << endl;
         }
 };
+
+int main()
+{
+    DoublyLinkedList dll; // Instantiate a dll object
+    for (int i = 0; i < 10; i++)
+        // Fill in the list with some elements
+        dll.push_front(i + 1);
+
+    dll.print(); // Forward print the list
+    dll.every_other_element(); // Print every other element
+
+    return 0;
+}
