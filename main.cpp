@@ -59,10 +59,72 @@ class DoublyLinkedList // Declares the DoublyLinkedList class
             temp->next = newNode; // Insert new node after 'temp'
         }
 
+        // A class method that deletes a node by its value
         void delete_val(int value)
         {
             if (!head) return; // Nothing to delete if the list is empty
 
+            // Traverse through the list until the node with the desired value is reached
             Node* temp = head;
+            while (temp && temp->data != value)
+                temp = temp->next;
+
+            if (!temp) return; // Out of bounds
+
+            // Check if the head is being deleted
+            if (temp->prev)
+                temp->prev->next = temp->next;
+            else
+                head = temp->next;
+
+            // Check if the tail is being deleted
+            if (temp->next)
+                temp->next->prev = temp->prev;
+            else
+                tail = temp->prev;
+
+            delete temp;
+        }
+
+        void delete_pos(int pos)
+        {
+            if (!head) // Nothing to delete if the list is empty
+            {
+                cout << "List is empty." << endl;
+                return;
+            }
+
+            if (pos == 1) // If deleting the head, call 'pop_front()' function to pop the head
+            {
+                pop_front();
+                return;
+            }
+
+            Node* temp = head;
+            for (int i = 1; i < pos; i++)
+            {
+                if (!temp) // Out of bounds or the list is empty
+                {
+                    cout << "Position does not exist." << endl;
+                    return;
+                }
+                else
+                    temp = temp->next; // Otherwise keep traversing
+            }
+            if (!temp) // Out of bounds
+            {
+                cout << "Position does not exist." << endl;
+                return;
+            }
+
+            // Deleting the tail
+            if (!temp->next)
+            {
+                pop_back();
+                return;
+            }
+
+            Node* tempPrev = temp->prev;
+            tempPrev->next = temp->next;
         }
 };
