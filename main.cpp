@@ -124,7 +124,44 @@ class DoublyLinkedList // Declares the DoublyLinkedList class
                 return;
             }
 
+            // Rerouting the pointers
             Node* tempPrev = temp->prev;
-            tempPrev->next = temp->next;
+            tempPrev->next = temp->next; // the current pointer's prev now points to its next node
+            temp->next->prev = tempPrev; // the current pointer's next now points to its previous node
+            delete temp;
+        }
+
+        void push_back(int v)
+        {
+            Node* newNode = new Node(v); // instantiate a new node to be inserted to the end of the list
+            if (!tail) // When the list is empty
+                head = tail = newNode;
+            else
+            {
+                tail->next = newNode; // the current tail now points to the new node
+                newNode->prev = tail; // the current tail now becomes the prev to the new node
+                tail = newNode; // make this new node tail
+            }
+        }
+
+        void push_front(int v)
+        {
+            Node* newNode = new Node(v); // instantiate a new node to be added to the front of the list
+            if (!head) // When the list is empty
+                head = tail = newNode;
+            else {
+                newNode->next = head; // the head now becomes the next
+                head->prev = newNode; // the newNode now becomes the prev to the current head
+                head = newNode; // make this new node head
+            }
+        }
+
+        void pop_front()
+        {
+            if (!head) // Nothing to pop if the list is empty
+            {
+                cout << "List is empty." << endl;
+                return;
+            }
         }
 };
