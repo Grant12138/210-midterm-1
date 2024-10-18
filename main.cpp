@@ -22,16 +22,17 @@ class DoublyLinkedList // Declares the DoublyLinkedList class
         // Default constructor to initialize an empty linked list
         DoublyLinkedList() : head(nullptr), tail(nullptr) {}
 
+        // A class method to insert a new Node struct after a given position
         void insert_after(int value, int position)
         {
-            if (position < 0)
+            if (position < 0) // First check if the position given is valid
             {
                 cout << "Position must be >= 0." << endl;
                 return;
             }
 
-            Node* newNode = new Node(value);
-            if (!head)
+            Node* newNode = new Node(value); // Dynamically create a new Node struct
+            if (!head) // Evaluates to true if the list is empty
             {
                 head = tail = newNode;
                 return;
@@ -41,5 +42,27 @@ class DoublyLinkedList // Declares the DoublyLinkedList class
             Node* temp = head;
             for (int i = 0; i < position && temp; ++i)
                 temp = temp->next;
+
+            if (!temp) // If temp is a nullptr, then the position is out of bounds
+            {
+                cout << "Position exceeds list size. Node not inserted.\n";
+                delete newNode; // Free up the dynamically allocated memory
+                return;
+            }
+
+            newNode->next = temp->next; // Link the new node with the next node
+            newNode->prev = temp; // Link the new node with the previous node
+            if (temp->next) // if not inserting at the end
+                temp->next->prev = newNode;
+            else // if so, the newNode becomes the tail
+                tail = newNode;
+            temp->next = newNode; // Insert new node after 'temp'
+        }
+
+        void delete_val(int value)
+        {
+            if (!head) return; // Nothing to delete if the list is empty
+
+            Node* temp = head;
         }
 };
